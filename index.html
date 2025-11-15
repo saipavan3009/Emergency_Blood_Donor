@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Blood Donor Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Success Toast -->
+    <div id="successToast" class="toast hidden">
+        <div class="toast-icon">✓</div>
+        <div>
+            <p class="toast-title">Success!</p>
+            <p class="toast-message">Donor registered successfully</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="heart-icon">❤️</span>
+                <span class="brand-text">Blood Donor Finder</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="navigateTo('home')" data-page="home">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Home</span>
+                </button>
+                <button class="nav-btn" onclick="navigateTo('register')" data-page="register">
+                    <span class="nav-icon">➕</span>
+                    <span class="nav-label">Register</span>
+                </button>
+                <button class="nav-btn" onclick="navigateTo('search')" data-page="search">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Search</span>
+                </button>
+                <button class="nav-btn" onclick="navigateTo('donors')" data-page="donors">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-label">Donors</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <div class="hero-section">
+                <div class="hero-icon">❤️</div>
+                <h1 class="hero-title">Blood Donor Finder</h1>
+                <p class="hero-subtitle">Connecting heroes with those in need • Saving lives together</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card stat-red">
+                    <div class="stat-content">
+                        <div>
+                            <p class="stat-label">Total Donors</p>
+                            <p class="stat-value" id="totalDonors">0</p>
+                        </div>
+                        <div class="stat-icon">👥</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-pink">
+                    <div class="stat-content">
+                        <div>
+                            <p class="stat-label">Blood Groups</p>
+                            <p class="stat-value" id="totalBloodGroups">0</p>
+                        </div>
+                        <div class="stat-icon">💧</div>
+                    </div>
+                </div>
+                <div class="stat-card stat-orange">
+                    <div class="stat-content">
+                        <div>
+                            <p class="stat-label">Locations</p>
+                            <p class="stat-value" id="totalLocations">0</p>
+                        </div>
+                        <div class="stat-icon">📍</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Cards -->
+            <div class="action-grid">
+                <div class="action-card" onclick="navigateTo('register')">
+                    <div class="action-icon action-icon-red">➕</div>
+                    <h3>Register as Donor</h3>
+                    <p>Join our community of heroes and help save lives</p>
+                </div>
+                <div class="action-card" onclick="navigateTo('search')">
+                    <div class="action-icon action-icon-blue">🔍</div>
+                    <h3>Find a Donor</h3>
+                    <p>Search for blood donors in your area quickly</p>
+                </div>
+            </div>
+
+            <div class="view-all-container">
+                <button class="btn-primary btn-green" onclick="navigateTo('donors')">
+                    <span>👥</span> View All Donors
+                </button>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="registerPage" class="page">
+            <div class="page-container">
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon form-icon-red">➕</div>
+                        <h2>Register as Donor</h2>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="name" placeholder="Enter your full name" class="form-input">
+                            <p class="error-message" id="nameError"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Blood Group</label>
+                            <select id="blood" class="form-input">
+                                <option value="">Select your blood group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                            <p class="error-message" id="bloodError"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="location" placeholder="Enter your city" class="form-input">
+                            <p class="error-message" id="locationError"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="10 digit mobile number" maxlength="10" class="form-input">
+                            <p class="error-message" id="phoneError"></p>
+                        </div>
+                        <button class="btn-primary btn-red" onclick="registerDonor()">
+                            <span>➕</span> Register as Donor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Page -->
+        <div id="searchPage" class="page">
+            <div class="page-container">
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon form-icon-blue">🔍</div>
+                        <h2>Find a Donor</h2>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label>Blood Group</label>
+                            <select id="searchBlood" class="form-input">
+                                <option value="">All Blood Groups</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="searchLocation" placeholder="Search by city" class="form-input">
+                        </div>
+                        <button class="btn-primary btn-blue" onclick="searchDonor()">
+                            <span>🔍</span> Search Donors
+                        </button>
+                    </div>
+                    
+                    <!-- Search Results -->
+                    <div id="searchResults" class="search-results hidden">
+                        <div class="results-header">
+                            <h3 id="resultsCount"></h3>
+                        </div>
+                        <div id="resultsList" class="donors-grid"></div>
+                    </div>
+
+                    <div id="noResults" class="no-results hidden">
+                        <div class="no-results-icon">🔍</div>
+                        <p class="no-results-title">No donors found matching your criteria</p>
+                        <p class="no-results-subtitle">Try adjusting your search filters</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donors Page -->
+        <div id="donorsPage" class="page">
+            <div class="donors-container">
+                <div class="donors-header">
+                    <div class="donors-title">
+                        <div class="form-icon form-icon-green">👥</div>
+                        <div>
+                            <h2>Available Donors</h2>
+                            <p class="donors-subtitle" id="donorsCount">0 registered heroes</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="donorList" class="donors-grid"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <span class="footer-heart">❤️</span>
+                Every donor is a hero • Together we save lives
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
